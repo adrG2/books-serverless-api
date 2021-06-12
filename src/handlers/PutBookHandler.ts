@@ -3,14 +3,13 @@ import {
     APIGatewayProxyEvent,
     APIGatewayProxyResult
 } from "aws-lambda";
-
+import AwsSqsBackOfficeBook from '../books/infrastructure/queue/AwsSqsBackOfficeBook';
 // Create clients and set shared const values outside of the handler.
-import CustomSqsClient from '../utils/sqs';
 
 /**
  * A simple example includes a HTTP post method to add one item to a DynamoDB table.
  */
-export const putItemHandler = async (
+export const putBookHandler = async (
     event: APIGatewayProxyEvent,
 ): Promise<APIGatewayProxyResult> => {
     if (event.httpMethod !== 'POST') {
@@ -24,7 +23,7 @@ export const putItemHandler = async (
     const id = body.id;
     const name = body.name;
 
-    const client = new CustomSqsClient();
+    const client = new AwsSqsBackOfficeBook();
     const result = await client.send({ id, name });
 
     const response = {

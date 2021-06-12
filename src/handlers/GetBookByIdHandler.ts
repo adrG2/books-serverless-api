@@ -3,13 +3,13 @@ import {
     APIGatewayProxyEvent,
     APIGatewayProxyResult
 } from "aws-lambda";
+import { AwsDynamoBookRepository } from '../programmer-library/books/infrastructure/persistence/AwsDynamoBookRepository';
 // Create clients and set shared const values outside of the handler.
-import CustomDynamoClient from '../utils/dynamodb';
 
 /**
  * A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
  */
-export const getByIdHandler = async (
+export const getBookByIdHandler = async (
   event: APIGatewayProxyEvent,
 ): Promise<APIGatewayProxyResult> => {
   if (event.httpMethod !== 'GET') {
@@ -21,12 +21,12 @@ export const getByIdHandler = async (
   // Get id from pathParameters from APIGateway because of `/{id}` at template.yml
   const id = event.pathParameters.id;
  
-  const client = new CustomDynamoClient();
-  const item = await client.read(id);
+  const client = new AwsDynamoBookRepository();
+  const book = await client.find(new BookId(id));
 
   const response = {
     statusCode: 200,
-    body: JSON.stringify(item)
+    body: JSON.stringify(book)
   };
  
   // All log statements are written to CloudWatch
