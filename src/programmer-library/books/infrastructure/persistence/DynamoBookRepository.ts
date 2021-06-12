@@ -4,7 +4,7 @@ import BackOfficeBookId from '../../domain/BookId';
 import BookRepository from '../../domain/BookRepository';
 
 // Declare some custom client just to illustrate how TS will include only used files into lambda distribution
-export class AwsDynamoBookRepository implements BookRepository {
+export class DynamoBookRepository implements BookRepository {
     readonly table: string;
     readonly client: DynamoDB.DocumentClient;
 

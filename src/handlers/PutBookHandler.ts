@@ -3,7 +3,7 @@ import {
     APIGatewayProxyEvent,
     APIGatewayProxyResult
 } from "aws-lambda";
-import AwsSqsBackOfficeBook from '../books/infrastructure/queue/AwsSqsBackOfficeBook';
+import { SqsBookBus } from '../programmer-library/books/infrastructure/queue/SqsBookBus';
 // Create clients and set shared const values outside of the handler.
 
 /**
@@ -23,7 +23,7 @@ export const putBookHandler = async (
     const id = body.id;
     const name = body.name;
 
-    const client = new AwsSqsBackOfficeBook();
+    const client = new SqsBookBus();
     const result = await client.send({ id, name });
 
     const response = {

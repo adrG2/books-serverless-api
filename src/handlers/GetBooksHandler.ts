@@ -3,7 +3,7 @@ import {
     APIGatewayProxyEvent,
     APIGatewayProxyResult
 } from "aws-lambda";
-import { AwsDynamoBookRepository } from '../books/infrastructure/persistence/AwsDynamoBookRepository';
+import { DynamoBookRepository } from '../books/infrastructure/persistence/DynamoBookRepository';
 
 // Create clients and set shared const values outside of the handler.
 
@@ -19,7 +19,7 @@ export const getBooksHandler = async (
     // All log statements are written to CloudWatch
     console.info('received:', event);
 
-    const client = new AwsDynamoBookRepository();
+    const client = new DynamoBookRepository();
     const books = await client.findAll();
 
     const response = {

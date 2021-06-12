@@ -6,4 +6,5 @@ export default interface BookRepository {
     findAll(): Promise<Array<Book>>;
     find(id: BookId): Promise<Book>;
     create(book: Book): Promise<void>;
+    delete(id: BookId): Promise<void>;
 }

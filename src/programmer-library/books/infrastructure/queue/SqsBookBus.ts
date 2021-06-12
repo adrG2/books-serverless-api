@@ -1,7 +1,7 @@
 import SQS from 'aws-sdk/clients/sqs';
 
 // Declare some custom client just to illustrate how TS will include only used files into lambda distribution
-export default class AwsSqsBook {
+export class SqsBookBus {
     queue: string;
     sqs: SQS;
 

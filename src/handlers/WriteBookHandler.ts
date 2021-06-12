@@ -1,6 +1,6 @@
 import 'source-map-support/register';
 import { SQSEvent } from 'aws-lambda';
-import { AwsDynamoBookRepository } from '../programmer-library/books/infrastructure/persistence/AwsDynamoBookRepository';
+import { DynamoBookRepository } from '../programmer-library/books/infrastructure/persistence/DynamoBookRepository';
 // Create clients and set shared const values outside of the handler.
 
 /**
@@ -15,7 +15,7 @@ export const writeBookHandler = async (
         const body = JSON.parse(record.body);
         const item = { id: body.id, name: body.name };
 
-        const client = new AwsDynamoBookRepository();
+        const client = new DynamoBookRepository();
         await client.create(item);
 
         console.info('Written to DynamoDB:', item)

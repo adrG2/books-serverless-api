@@ -3,7 +3,7 @@ import {
     APIGatewayProxyEvent,
     APIGatewayProxyResult
 } from "aws-lambda";
-import { AwsDynamoBookRepository } from '../programmer-library/books/infrastructure/persistence/AwsDynamoBookRepository';
+import { DynamoBookRepository } from '../programmer-library/books/infrastructure/persistence/DynamoBookRepository';
 // Create clients and set shared const values outside of the handler.
 
 /**
@@ -21,7 +21,7 @@ export const getBookByIdHandler = async (
   // Get id from pathParameters from APIGateway because of `/{id}` at template.yml
   const id = event.pathParameters.id;
  
-  const client = new AwsDynamoBookRepository();
+  const client = new DynamoBookRepository();
   const book = await client.find(new BookId(id));
 
   const response = {
