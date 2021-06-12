@@ -4,6 +4,7 @@ import {
     APIGatewayProxyResult
 } from "aws-lambda";
 import { DynamoBookRepository } from '../programmer-library/books/infrastructure/persistence/DynamoBookRepository';
+import BookId from '../programmer-library/books/domain/BookId';
 // Create clients and set shared const values outside of the handler.
 
 /**
