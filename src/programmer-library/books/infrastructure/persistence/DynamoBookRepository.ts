@@ -47,7 +47,7 @@ export default class DynamoBookRepository implements BookRepository {
     async create(book: Book): Promise<void> {
         const item = {
             id: book.id.value,
-            name: book.title.value
+            title: book.title.value
         }
         const params = {
             TableName: this.table,

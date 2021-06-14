@@ -1,7 +1,7 @@
-export default class BookTitle {
-    readonly value: string;
+import StringValueObject from "../../shared/domain/StringValueObject";
 
+export default class BookTitle extends StringValueObject {
     constructor(value: string) {
-        this.value = value;
+        super(value);
     }
 }

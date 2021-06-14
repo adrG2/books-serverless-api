@@ -1,7 +1,7 @@
-export class AuthorId {
-    readonly value: String;
+import Uuid from "../../shared/domain/Uuid";
 
-    constructor(value: String) {
-        this.value = value;
+export class AuthorId extends Uuid {
+    constructor(value: string) {
+        super(value);
     }
 }

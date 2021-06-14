@@ -1,7 +1,7 @@
-export default class BookId {
-    readonly value: string;
+import Uuid from "../../shared/domain/Uuid";
 
+export default class BookId extends Uuid {
     constructor(value: string) {
-        this.value = value;
+        super(value);
     }
 }
