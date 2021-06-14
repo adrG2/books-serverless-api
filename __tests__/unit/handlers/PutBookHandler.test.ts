@@ -1,7 +1,7 @@
 import { constructAPIGwEvent } from "../../utils/helpers";
 
 import { putBookHandler } from '../../../src/handlers/PutBookHandler';
-import SqsBookBus from '../../../src/programmer-library/books/infrastructure/queue/SqsBookBus';
+import SqsBookBus from "../../../src/programmer-library/books/infrastructure/bus/SqsBookBus";
 
 describe('Test putBookHandler', function () { 
     let putSpy;
