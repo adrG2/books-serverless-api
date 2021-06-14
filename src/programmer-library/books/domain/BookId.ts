@@ -1,11 +1,7 @@
-export default class BackOfficeBookId {
-    private readonly value: String;
+export default class BookId {
+    readonly value: String;
 
     constructor(value: String) {
         this.value = value;
-    }
-
-    getValue(): String {
-        return this.value;
     }
 }

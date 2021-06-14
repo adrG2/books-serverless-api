@@ -1,10 +1,10 @@
 // Create a DocumentClient that represents the query to add an item
 import DynamoDB from 'aws-sdk/clients/dynamodb';
-import BackOfficeBookId from '../../domain/BookId';
+import Book from '../../domain/Book';
+import BookId from '../../domain/BookId';
 import BookRepository from '../../domain/BookRepository';
 
-// Declare some custom client just to illustrate how TS will include only used files into lambda distribution
-export class DynamoBookRepository implements BookRepository {
+export default class DynamoBookRepository implements BookRepository {
     readonly table: string;
     readonly client: DynamoDB.DocumentClient;
 
@@ -13,14 +13,13 @@ export class DynamoBookRepository implements BookRepository {
         this.table = table;
     }
 
-    async findAll(): Promise<void> {
+    async findAll(): Promise<Array<Book>> {
         const data = await this.client.scan({ TableName: this.table }).promise();
-        const backOfficeBooks = data.Items.map(item => {
-            item.get("")
-        });
+
+        return data.Items;
     }
 
-    async find(id: BackOfficeBookId) {
+    async find(id: BookId): Promise<Book> {
         var params = {
             TableName : this.table,
             Key: { id: id },
@@ -29,12 +28,22 @@ export class DynamoBookRepository implements BookRepository {
         return data.Item;
     }
 
-    async create(Item: object) {
+    async create(book: Book): Promise<void> {
+        const bookItem = {};
         const params = {
             TableName: this.table,
-            Item,
+            bookItem,
         };
 
-        return await this.client.put(params).promise();
+        await this.client.put(params).promise();
+    }
+
+    async delete(id: BookId): Promise<void> {
+        const bookItem = {}; 
+        const params = {
+            TableName: this.table,
+            bookItem,
+        }
+        await this.client.delete(params).promise();
     }
 }

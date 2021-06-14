@@ -1,12 +1,9 @@
 import { constructAPIGwEvent } from "../../utils/helpers";
 
-// Import all functions from get-all-items.js 
-import { getAllItemsHandler } from '../../../src/handlers/get-all-items'; 
-// Import dynamodb from aws-sdk 
+import { getBooksHandler } from '../../../src/handlers/GetBooksHandler';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'; 
  
-// This includes all tests for getAllItemsHandler() 
-describe('Test getAllItemsHandler', () => { 
+describe('Test getBooksHandler', () => { 
     let scanSpy; 
  
     // Test one-time setup and teardown, see more in https://jestjs.io/docs/en/setup-teardown 
@@ -24,22 +21,19 @@ describe('Test getAllItemsHandler', () => {
     it('should return ids', async () => { 
         const items = [{ id: 'id1' }, { id: 'id2' }]; 
  
-        // Return the specified value whenever the spied scan function is called 
         scanSpy.mockReturnValue({ 
             promise: () => Promise.resolve({ Items: items }) 
         }); 
  
         const event = constructAPIGwEvent({}, { method: 'GET' });
  
-        // Invoke helloFromLambdaHandler() 
-        const result = await getAllItemsHandler(event); 
+        const result = await getBooksHandler(event); 
  
         const expectedResult = { 
             statusCode: 200, 
             body: JSON.stringify(items) 
         }; 
  
-        // Compare the result with the expected result 
         expect(result).toEqual(expectedResult); 
     }); 
 }); 

@@ -1,5 +1,5 @@
 
-import { BackOfficeBook as Book } from "./Book";
+import Book from "./Book";
 import BookId from "./BookId";
 
 export default interface BookRepository {

@@ -1,12 +1,9 @@
 import { constructAPIGwEvent } from "../../utils/helpers";
 
-// Import all functions from get-by-id.js 
-import { getByIdHandler } from '../../../src/handlers/get-by-id'; 
-// Import dynamodb from aws-sdk 
+import { getBookByIdHandler } from '../../../src/handlers/GetBookByIdHandler'; 
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'; 
  
-// This includes all tests for getByIdHandler() 
-describe('Test getByIdHandler', () => { 
+describe('Test getBookByIdHandler', () => { 
     let getSpy; 
  
     // Test one-time setup and teardown, see more in https://jestjs.io/docs/en/setup-teardown 
@@ -21,11 +18,9 @@ describe('Test getByIdHandler', () => {
         getSpy.mockRestore(); 
     }); 
  
-    // This test invokes getByIdHandler() and compare the result  
-    it('should get item by id', async () => { 
+    it('should get book by id', async () => { 
         const item = { id: 'id1' }; 
  
-        // Return the specified value whenever the spied get function is called 
         getSpy.mockReturnValue({ 
             promise: () => Promise.resolve({ Item: item }) 
         }); 
@@ -37,15 +32,13 @@ describe('Test getByIdHandler', () => {
             } 
         });
  
-        // Invoke getByIdHandler() 
-        const result = await getByIdHandler(event); 
+        const result = await getBookByIdHandler(event); 
  
         const expectedResult = { 
             statusCode: 200, 
             body: JSON.stringify(item) 
         }; 
  
-        // Compare the result with the expected result 
         expect(result).toEqual(expectedResult); 
     }); 
 }); 

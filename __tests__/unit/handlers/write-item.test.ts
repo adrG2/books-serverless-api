@@ -1,12 +1,11 @@
 import { constructSQSEvent } from "../../utils/helpers";
 
 // Import all functions from put-item.js
-import { writeItemHandler } from '../../../src/handlers/write-item';
+import { writeBookHandler } from '../../../src/handlers/WriteBookHandler';
 // Import dynamodb from aws-sdk
 import dynamodb from 'aws-sdk/clients/dynamodb';
 
-// This includes all tests for putItemHandler()
-describe('Test writeItemHandler', function () {
+describe('Test writeBookHandler', function () {
     let writeSpy;
 
     // Test one-time setup and teardown, see more in https://jestjs.io/docs/en/setup-teardown
@@ -21,11 +20,9 @@ describe('Test writeItemHandler', function () {
         writeSpy.mockRestore();
     });
 
-    // This test invokes putItemHandler() and compare the result
     it('should add id to the table', async () => {
         const returnedItem = { id: 'id1', name: 'name1' };
 
-        // Return the specified value whenever the spied put function is called
         writeSpy.mockReturnValue({
             promise: () => Promise.resolve(returnedItem)
         });
@@ -34,7 +31,7 @@ describe('Test writeItemHandler', function () {
             { id: "id1", name: "name1" },
         );
 
-        await writeItemHandler(event);
+        await writeBookHandler(event);
 
         expect(writeSpy).toHaveBeenCalled();
     });
