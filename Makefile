@@ -6,7 +6,7 @@ build-getBooksFunction:
 build-getBookByIdFunction:
 	$(MAKE) HANDLER=src/handlers/GetBookByIdHandler.ts build-lambda-common
 build-putBookFunction:
-	$(MAKE) HANDLER=src/handlers/PutBookFunction.ts build-lambda-common
+	$(MAKE) HANDLER=src/handlers/PutBookHandler.ts build-lambda-common
 build-writeBookFunction:
 	$(MAKE) HANDLER=src/handlers/WriteBookHandler.ts build-lambda-common
 
