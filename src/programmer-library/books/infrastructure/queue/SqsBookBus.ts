@@ -1,4 +1,4 @@
-import SQS from 'aws-sdk/clients/sqs';
+import SQS, { SendMessageResult } from 'aws-sdk/clients/sqs';
 import BookBus from '../../domain/BookBus';
 
 // Declare some custom client just to illustrate how TS will include only used files into lambda distribution
@@ -11,13 +11,13 @@ export default class SqsBookBus implements BookBus {
         this.queue = queue;
     }
 
-    async send(body: object): Promise<void> {
+    async send(body: object): Promise<SendMessageResult> {
         const sqs = new SQS();
         const params = {
             MessageBody: JSON.stringify(body),
             QueueUrl: this.queue,
             DelaySeconds: 0,
         }
-        await sqs.sendMessage(params).promise();
+        return await sqs.sendMessage(params).promise();
     }
 }
