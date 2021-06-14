@@ -22,7 +22,7 @@ describe('Test writeBookHandler', function () {
     });
 
     it('should add id to the table', async () => {
-        const id = Uuid.random();
+        const id = Uuid.random().value;
         const title = "Clean Code";
         const returnedItem = { id, title };
 
