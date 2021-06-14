@@ -1,8 +1,8 @@
 
-import Book from "./Book";
-import BookId from "./BookId";
+import { Book } from "./Book";
+import { BookId } from "./BookId";
 
-export default interface BookRepository {
+export interface BookRepository {
     findAll(): Promise<Array<Book>>;
     find(id: BookId): Promise<Book>;
     create(book: Book): Promise<void>;

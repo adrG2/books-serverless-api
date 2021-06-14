@@ -4,7 +4,7 @@ import { constructSQSEvent } from "../../utils/helpers";
 import { writeBookHandler } from '../../../src/handlers/WriteBookHandler';
 // Import dynamodb from aws-sdk
 import dynamodb from 'aws-sdk/clients/dynamodb';
-import Uuid from "../../../src/programmer-library/shared/domain/Uuid";
+import { BookMother } from "../../utils/books/domain/BookMother";
 
 describe('Test writeBookHandler', function () {
     let writeSpy;
@@ -22,17 +22,14 @@ describe('Test writeBookHandler', function () {
     });
 
     it('should add id to the table', async () => {
-        const id = Uuid.random().value;
-        const title = "Clean Code";
-        const returnedItem = { id, title };
+        
+        const book = BookMother.random().toPrimitive();
 
         writeSpy.mockReturnValue({
-            promise: () => Promise.resolve(returnedItem)
+            promise: () => Promise.resolve(book)
         });
 
-        const event = constructSQSEvent(
-            { id, title },
-        );
+        const event = constructSQSEvent(book);
 
         await writeBookHandler(event);
 

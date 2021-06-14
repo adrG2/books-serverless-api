@@ -1,9 +1,9 @@
 import 'source-map-support/register';
 import { SQSEvent } from 'aws-lambda';
-import DynamoBookRepository from '../programmer-library/books/infrastructure/persistence/DynamoBookRepository';
-import Book from '../programmer-library/books/domain/Book';
-import BookId from '../programmer-library/books/domain/BookId';
-import BookTitle from '../programmer-library/books/domain/BookTitle';
+import { DynamoBookRepository } from '../programmer-library/books/infrastructure/persistence/DynamoBookRepository';
+import { Book } from '../programmer-library/books/domain/Book';
+import { BookId } from '../programmer-library/books/domain/BookId';
+import { BookTitle } from '../programmer-library/books/domain/BookTitle';
 // Create clients and set shared const values outside of the handler.
 
 /**

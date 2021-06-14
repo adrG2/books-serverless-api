@@ -1,8 +1,8 @@
 import { constructAPIGwEvent } from "../../utils/helpers";
 
 import { getBookByIdHandler } from '../../../src/handlers/GetBookByIdHandler'; 
-import { DocumentClient } from 'aws-sdk/clients/dynamodb'; 
-import Uuid from "../../../src/programmer-library/shared/domain/Uuid";
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import { BookMother } from '../../utils/books/domain/BookMother';
  
 describe('Test getBookByIdHandler', () => { 
     let getSpy; 
@@ -20,17 +20,16 @@ describe('Test getBookByIdHandler', () => {
     }); 
  
     it('should get book by id', async () => { 
-        const id = Uuid.random().value;
-        const item = { id }; 
+        const book = BookMother.random().toPrimitive(); 
  
         getSpy.mockReturnValue({ 
-            promise: () => Promise.resolve({ Item: item }) 
+            promise: () => Promise.resolve({ Item: book }) 
         }); 
  
         const event = constructAPIGwEvent({}, { 
             httpMethod: 'GET', 
             pathParameters: { 
-                id 
+                id: book.id
             } 
         });
  
@@ -38,7 +37,7 @@ describe('Test getBookByIdHandler', () => {
  
         const expectedResult = { 
             statusCode: 200, 
-            body: JSON.stringify(item) 
+            body: JSON.stringify(book) 
         }; 
  
         expect(result).toEqual(expectedResult); 

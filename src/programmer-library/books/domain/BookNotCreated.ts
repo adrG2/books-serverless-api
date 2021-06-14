@@ -1,4 +1,4 @@
-export class BookNotFound extends Error {
+export class BookNotCreated extends Error {
     constructor(message: string) {
         super(message);
     }

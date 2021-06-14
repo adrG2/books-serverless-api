@@ -3,8 +3,8 @@ import {
     APIGatewayProxyEvent,
     APIGatewayProxyResult
 } from "aws-lambda";
-import DynamoBookRepository from '../programmer-library/books/infrastructure/persistence/DynamoBookRepository';
-import BookId from '../programmer-library/books/domain/BookId';
+import { DynamoBookRepository } from '../programmer-library/books/infrastructure/persistence/DynamoBookRepository';
+import { BookId } from '../programmer-library/books/domain/BookId';
 // Create clients and set shared const values outside of the handler.
 
 /**
@@ -18,9 +18,8 @@ export const getBookByIdHandler = async (
   }
 
   console.info('received:', event);
- 
-  const id = event.pathParameters.id;
- 
+
+  const id = event.pathParameters.id; 
   const client = new DynamoBookRepository();
   const book = await client.find(new BookId(id));
 

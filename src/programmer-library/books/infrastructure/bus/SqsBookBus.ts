@@ -1,8 +1,8 @@
 import SQS, { SendMessageResult } from 'aws-sdk/clients/sqs';
-import BookBus from '../../domain/BookBus';
+import { BookBus } from '../../domain/BookBus';
 
 // Declare some custom client just to illustrate how TS will include only used files into lambda distribution
-export default class SqsBookBus implements BookBus {
+export class SqsBookBus implements BookBus {
     queue: string;
     sqs: SQS;
 

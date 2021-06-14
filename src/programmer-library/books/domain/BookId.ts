@@ -1,6 +1,6 @@
-import Uuid from "../../shared/domain/Uuid";
+import { Uuid } from "../../shared/domain/Uuid";
 
-export default class BookId extends Uuid {
+export class BookId extends Uuid {
     constructor(value: string) {
         super(value);
     }
