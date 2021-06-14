@@ -1,14 +1,7 @@
-# This is the SAM template that represents the architecture of your serverless application
-# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-template-basics.html
-
-# The AWSTemplateFormatVersion identifies the capabilities of the template
-# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/format-version-structure.html
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  aws-sam-typescript-layers-example
+  aws-sam-typescript-library
 
-# Transform section specifies one or more macros that AWS CloudFormation uses to process your template
-# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html
 Transform:
 - AWS::Serverless-2016-10-31
 
@@ -18,70 +11,55 @@ Globals:
       - !Ref RuntimeDependenciesLayer
     Environment:
       Variables:
-        SAMPLE_TABLE: !Ref SampleTable
+        SAMPLE_TABLE: !Ref BooksTable
         ITEM_QUEUE: !Ref WriteQueue
     Runtime: nodejs12.x
     MemorySize: 128
     Timeout: 100
 
-# Resources declares the AWS resources that you want to include in the stack
-# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-
-  # This is a Lambda function config associated with the source code: get-all-items.js
-  getAllItemsFunction:
+  getBooksFunction:
     Type: AWS::Serverless::Function
     Metadata:
       BuildMethod: makefile
     Properties:
-      Handler: dist/handlers/get-all-items.getAllItemsHandler
-      Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
+      Handler: dist/handlers/GetBooksHandler.getBooksHandler
+      Description: A simple example includes a HTTP get method to get all books from a DynamoDB table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the SampleTable
-        - DynamoDBCrudPolicy:
-            TableName: !Ref SampleTable
+        - DynamoDBReadPolicy:
+            TableName: !Ref BooksTable
       Events:
         Api:
           Type: Api
           Properties:
             Path: /
             Method: GET
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-
-  # This is a Lambda function config associated with the source code: get-by-id.js
-  getByIdFunction:
+  
+  getBookByIdFunction:
     Type: AWS::Serverless::Function
     Metadata:
       BuildMethod: makefile
     Properties:
-      Handler: dist/handlers/get-by-id.getByIdHandler
-      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Handler: dist/handlers/GetBookByIdHandler.getBookByIdHandler
+      Description: A simple example includes a HTTP get method to get one book by id from a DynamoDB table.
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the SampleTable
-        - DynamoDBCrudPolicy:
-            TableName: !Ref SampleTable
+        - DynamoDBReadPolicy:
+            TableName: !Ref BooksTable
       Events:
         Api:
           Type: Api
           Properties:
             Path: /{id}
             Method: GET
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-
-  # This is a Lambda function config associated with the source code: put-item.js
-  putItemFunction:
+  
+  putBookFunction:
     Type: AWS::Serverless::Function
     Metadata:
       BuildMethod: makefile
     Properties:
-      Handler: dist/handlers/put-item.putItemHandler
-      Description: A simple example includes a HTTP post method to add one item to an SQS queue (to be written to a DynamoDB table later).
+      Handler: dist/handlers/PutBookHandler.putBookHandler
+      Description: A simple example includes a HTTP post method to add one book to an SQS queue (to be written to a DynamoDB table later).
       Policies:
-        # Give permission to send message to an Amazon SQS queue. See https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-template-list.html#sqs-send-message-policy
         - SQSSendMessagePolicy:
             QueueName: !GetAtt WriteQueue.QueueName
       Events:
@@ -91,19 +69,18 @@ Resources:
             Path: /
             Method: POST
 
-  # This is a Lambda function config associated with the source code: write-item.ts
-  writeItemFunction:
+  writeBookFunction:
     Type: AWS::Serverless::Function
     Metadata:
       BuildMethod: makefile
     Properties:
-      Handler: dist/handlers/write-item.writeItemHandler
+      Handler: dist/handlers/WriteBookHandler.writeBookHandler
       Description: A simple example includes an SQS subscription to write queued object to DynamoDB
       Timeout: 25 # Chosen to be less than the default SQS Visibility Timeout of 30 seconds
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the SampleTable, see https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-template-list.html#dynamo-db-crud-policy
-        - DynamoDBCrudPolicy:
-            TableName: !Ref SampleTable
+        # Give Create/Read/Update/Delete Permissions to the BooksTable, see https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-template-list.html#dynamo-db-crud-policy
+        - DynamoDBWritePolicy:
+            TableName: !Ref BooksTable
       Events:
         # Subscription to primary SQS queue
         SQSQueueEvent:
@@ -112,11 +89,7 @@ Resources:
             Queue: !GetAtt WriteQueue.Arn
             BatchSize: 1
 
-  # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
-
-  # DynamoDB table to store item: {id: &lt;ID&gt;, name: &lt;NAME&gt;}
-  SampleTable:
+  BooksTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
       PrimaryKey:
