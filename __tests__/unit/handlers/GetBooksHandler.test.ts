@@ -2,6 +2,7 @@ import { constructAPIGwEvent } from "../../utils/helpers";
 
 import { getBooksHandler } from '../../../src/handlers/GetBooksHandler';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'; 
+import Uuid from "../../../src/programmer-library/shared/domain/Uuid";
  
 describe('Test getBooksHandler', () => { 
     let scanSpy; 
@@ -19,7 +20,7 @@ describe('Test getBooksHandler', () => {
     }); 
  
     it('should return ids', async () => { 
-        const items = [{ id: 'id1' }, { id: 'id2' }]; 
+        const items = [{ id: Uuid.random().value }, { id: Uuid.random().value }]; 
  
         scanSpy.mockReturnValue({ 
             promise: () => Promise.resolve({ Items: items }) 

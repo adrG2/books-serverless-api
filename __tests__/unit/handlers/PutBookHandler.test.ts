@@ -2,6 +2,7 @@ import { constructAPIGwEvent } from "../../utils/helpers";
 
 import { putBookHandler } from '../../../src/handlers/PutBookHandler';
 import SqsBookBus from "../../../src/programmer-library/books/infrastructure/bus/SqsBookBus";
+import Uuid from "../../../src/programmer-library/shared/domain/Uuid";
 
 describe('Test putBookHandler', function () { 
     let putSpy;
@@ -21,8 +22,11 @@ describe('Test putBookHandler', function () {
     it('should add id to the SQS queue', async () => {
         putSpy.mockReturnValue(Promise.resolve({ MessageId: "5972648d-f5ec-4941-b1bc-1cd890982a22" }));
 
+        const id = Uuid.random();
+        const title = "Clean Code";
+        
         const event = constructAPIGwEvent(
-            { id: "id1", name: "name1" },
+            { id, title },
             { method: 'POST' },
         );
      

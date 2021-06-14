@@ -2,6 +2,7 @@ import { constructAPIGwEvent } from "../../utils/helpers";
 
 import { getBookByIdHandler } from '../../../src/handlers/GetBookByIdHandler'; 
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'; 
+import Uuid from "../../../src/programmer-library/shared/domain/Uuid";
  
 describe('Test getBookByIdHandler', () => { 
     let getSpy; 
@@ -19,7 +20,8 @@ describe('Test getBookByIdHandler', () => {
     }); 
  
     it('should get book by id', async () => { 
-        const item = { id: 'id1' }; 
+        const id = Uuid.random().value;
+        const item = { id }; 
  
         getSpy.mockReturnValue({ 
             promise: () => Promise.resolve({ Item: item }) 
@@ -28,7 +30,7 @@ describe('Test getBookByIdHandler', () => {
         const event = constructAPIGwEvent({}, { 
             httpMethod: 'GET', 
             pathParameters: { 
-                id: 'id1' 
+                id 
             } 
         });
  

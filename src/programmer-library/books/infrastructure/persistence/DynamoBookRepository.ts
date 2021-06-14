@@ -1,5 +1,7 @@
 // Create a DocumentClient that represents the query to add an item
 import DynamoDB from 'aws-sdk/clients/dynamodb';
+import { AWSError } from 'aws-sdk/lib/error';
+import { PromiseResult } from 'aws-sdk/lib/request';
 import Book from '../../domain/Book';
 import BookId from '../../domain/BookId';
 import BookNotFound from '../../domain/BookNotFound';
@@ -18,11 +20,18 @@ export default class DynamoBookRepository implements BookRepository {
 
     async findAll(): Promise<Array<Book>> {
         const data = await this.client.scan({ TableName: this.table }).promise();
+        this.ensureBooksFound(data);
+        return data.Items.map(item => this.convertItemToBook(item));
+    }
+
+    private ensureBooksFound(data: PromiseResult<DynamoDB.DocumentClient.ScanOutput, AWSError>) {
         if (!data.Items) {
             throw new BooksNotFound(`No books found in table ${this.table}`);
         }
+    }
 
-        return data.Items.map(item => Book.create(new BookId(item.id), new BookTitle(item.title)));
+    private convertItemToBook(item: DynamoDB.DocumentClient.AttributeMap): Book {
+        return Book.create(new BookId(item.id), new BookTitle(item.title));
     }
 
     async find(id: BookId): Promise<Book> {
@@ -32,9 +41,7 @@ export default class DynamoBookRepository implements BookRepository {
         };
         const data = await this.client.get(params).promise();
 
-        if (! data.Item) {
-            throw new BookNotFound(`Book with id ${id} not found`);
-        }
+        this.ensureBookFound(data, id);
 
         const item = data.Item;
         const book: Book = {
@@ -42,6 +49,12 @@ export default class DynamoBookRepository implements BookRepository {
             title: new BookTitle(item.title)
         }
         return book;
+    }
+
+    private ensureBookFound(data: PromiseResult<DynamoDB.DocumentClient.GetItemOutput, AWSError>, id: BookId) {
+        if (!data.Item) {
+            throw new BookNotFound(`Book with id ${id} not found`);
+        }
     }
 
     async create(book: Book): Promise<void> {
