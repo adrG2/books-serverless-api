@@ -3,7 +3,7 @@ import {
     APIGatewayProxyEvent,
     APIGatewayProxyResult
 } from "aws-lambda";
-import SqsBookBus from '../programmer-library/books/infrastructure/queue/SqsBookBus';
+import SqsBookBus from '../programmer-library/books/infrastructure/bus/SqsBookBus';
 // Create clients and set shared const values outside of the handler.
 
 /**
