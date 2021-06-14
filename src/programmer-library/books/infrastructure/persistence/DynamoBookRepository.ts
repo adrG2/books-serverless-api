@@ -71,7 +71,6 @@ export class DynamoBookRepository implements BookRepository {
             if (err) {
                 throw new BookNotCreated(`Book with id ${book.id.value} not created`);
             }
-            console.debug(data);
         }).promise();
     }
 }

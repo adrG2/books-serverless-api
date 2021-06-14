@@ -24,7 +24,7 @@ export const getBooksHandler = async (
 
     const response = {
         statusCode: 200,
-        body: JSON.stringify(books)
+        body: JSON.stringify(books.map(book => book.toPrimitive()))
     };
 
     console.info(`response from: ${event.path} statusCode: ${response.statusCode} body: ${response.body}`);

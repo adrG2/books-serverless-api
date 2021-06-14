@@ -5,7 +5,6 @@ import {
 } from "aws-lambda";
 import { DynamoBookRepository } from '../programmer-library/books/infrastructure/persistence/DynamoBookRepository';
 import { BookId } from '../programmer-library/books/domain/BookId';
-// Create clients and set shared const values outside of the handler.
 
 /**
  * A simple example includes a HTTP get method to get one book by id from a DynamoDB table.
@@ -25,7 +24,7 @@ export const getBookByIdHandler = async (
 
   const response = {
     statusCode: 200,
-    body: JSON.stringify(book)
+    body: JSON.stringify(book.toPrimitive())
   };
  
   console.info(`response from: ${event.path} statusCode: ${response.statusCode} body: ${response.body}`);
