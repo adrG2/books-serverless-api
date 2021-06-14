@@ -14,7 +14,7 @@ export class DynamoBookRepository implements BookRepository {
     readonly table: string;
     readonly client: DynamoDB.DocumentClient;
 
-    constructor(table = process.env.SAMPLE_TABLE) {
+    constructor(table = process.env.BOOKS_TABLE) {
         this.client = new DynamoDB.DocumentClient();
         this.table = table;
     }

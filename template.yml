@@ -11,8 +11,8 @@ Globals:
       - !Ref RuntimeDependenciesLayer
     Environment:
       Variables:
-        SAMPLE_TABLE: !Ref BooksTable
-        BOOK_QUEUE: !Ref BookQueue
+        BOOKS_TABLE: !Ref BooksTable
+        BOOKS_QUEUE: !Ref BookQueue
     Runtime: nodejs12.x
     MemorySize: 128
     Timeout: 100
@@ -23,7 +23,7 @@ Resources:
     Properties:
       StageName: Prod
       Auth:
-        DefaultAuthorizer: AWS_IAM
+        ApiKeyRequired: true
   getBooksFunction:
     Type: AWS::Serverless::Function
     Metadata:
@@ -41,6 +41,8 @@ Resources:
             RestApiId: !Ref BooksApi
             Path: /
             Method: GET
+            Auth:
+              ApiKeyRequired: true
   
   getBookByIdFunction:
     Type: AWS::Serverless::Function
@@ -59,6 +61,8 @@ Resources:
             RestApiId: !Ref BooksApi
             Path: /{id}
             Method: GET
+            Auth:
+              ApiKeyRequired: true
   
   putBookFunction:
     Type: AWS::Serverless::Function
@@ -77,6 +81,8 @@ Resources:
             RestApiId: !Ref BooksApi
             Path: /
             Method: POST
+            Auth:
+              ApiKeyRequired: true
 
   writeBookFunction:
     Type: AWS::Serverless::Function
@@ -87,11 +93,9 @@ Resources:
       Description: A simple example includes an SQS subscription to write queued object to DynamoDB
       Timeout: 25 # Chosen to be less than the default SQS Visibility Timeout of 30 seconds
       Policies:
-        # Give Create/Read/Update/Delete Permissions to the BooksTable, see https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-template-list.html#dynamo-db-crud-policy
         - DynamoDBWritePolicy:
             TableName: !Ref BooksTable
       Events:
-        # Subscription to primary SQS queue
         SQSQueueEvent:
           Type: SQS
           Properties:
@@ -123,6 +127,9 @@ Resources:
       RetentionPolicy: Retain
 
 Outputs:
-  WebEndpoint:
-    Description: "API Gateway endpoint URL for Prod stage"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  BookTableArn:
+    Description: "Book table arn"
+    Value: !GetAtt BooksTable.Arn
+  BookQueueArn:
+    Description: "Book queue arn"
+    Value: !GetAtt BookQueue.Arn

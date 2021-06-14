@@ -6,7 +6,7 @@ export class SqsBookBus implements BookBus {
     queue: string;
     sqs: SQS;
 
-    constructor(queue = process.env.BOOK_QUEUE) {
+    constructor(queue = process.env.BOOKS_QUEUE) {
         this.sqs = new SQS();
         this.queue = queue;
     }
