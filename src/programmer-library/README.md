@@ -22,3 +22,11 @@ In this layer, infrastructure solutions will be implemented.
 
 * DynamoDB
 * SQS
+
+## The Authors Context
+
+In progress...
+
+## The Shared Context
+
+In progress...
