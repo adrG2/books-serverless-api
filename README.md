@@ -93,3 +93,19 @@ my-application$ sam local start-api --env-vars=env.json
 my-application$ curl -X POST http://localhost:3000/ -d '{"id": "curl1","name": "Created with cURL"}'
 my-application$ curl http://localhost:3000/
 ```
+## Unit tests
+
+Tests are defined in the `__tests__` folder in this project. Use `npm` to install the [Jest test framework](https://jestjs.io/) and run unit tests.
+
+```bash
+my-application$ npm install
+my-application$ npm run test
+```
+
+## Cleanup
+
+To delete the sample application that you created, use the AWS CLI. Assuming you used your project name for the stack name, you can run the following:
+
+```bash
+aws cloudformation delete-stack --stack-name books-api
+```
