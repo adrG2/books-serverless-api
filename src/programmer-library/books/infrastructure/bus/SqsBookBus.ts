@@ -18,6 +18,12 @@ export class SqsBookBus implements BookBus {
             QueueUrl: this.queue,
             DelaySeconds: 0,
         }
-        return await sqs.sendMessage(params).promise();
+        console.log(params);
+        return await sqs.sendMessage(params, (err, data) => {
+            if (err) {
+                throw err;
+            }
+            console.log(data);
+        }).promise();
     }
 }

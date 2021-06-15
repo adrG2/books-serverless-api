@@ -1,0 +1,34 @@
+[
+    {
+        "httpMethod": "POST",
+        "body": "{\"id\": \"7878f2cb-1e62-4428-b26a-444ba6c1cf33\",\"title\": \"Clean code\"}"
+    },
+    {
+        "httpMethod": "POST",
+        "body": "{\"id\": \"84954d78-c7ed-48dd-b206-58de8afe48d8\",\"title\": \"Code Complete\"}"
+    },
+    {
+        "httpMethod": "POST",
+        "body": "{\"id\": \"cfa52d1f-bf1d-48f2-8fde-342ecb10bba6\",\"title\": \"Programming AWS Lambda\"}"
+    },
+    {
+        "httpMethod": "POST",
+        "body": "{\"id\": \"acdbe0aa-57d2-406b-9548-3b151e7dd634\",\"title\": \"Growing Object-Oriented Software, Guided by Tests\"}"
+    },
+    {
+        "httpMethod": "POST",
+        "body": "{\"id\": \"9bfc3620-ed2c-4741-8c5d-bcd1d253f2a2\",\"title\": \"You dont know js\"}"
+    },
+    {
+        "httpMethod": "POST",
+        "body": "{\"id\": \"38981764-aded-46d5-83dd-ddd1f3cef082\",\"title\": \"Refactoring\"}"
+    },
+    {
+        "httpMethod": "POST",
+        "body": "{\"id\": \"3c3e7169-4f0d-4e1c-9236-a832af143a41\",\"title\": \"Clean architecture\"}"
+    },
+    {
+        "httpMethod": "POST",
+        "body": "{\"id\": \"5ae1ea45-ab68-4a70-ab99-ea766a182cc7\",\"title\": \"Building Event-Driven Microservices\"}"
+    }
+]

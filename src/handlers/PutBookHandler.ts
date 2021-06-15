@@ -18,12 +18,9 @@ export const putBookHandler = async (
 
     console.info('received:', event);
     
-    const body = JSON.parse(event.body)
-    const id = body.id;
-    const title = body.title;
-
+    const body = JSON.parse(event.body);
     const client = new SqsBookBus();
-    const result = await client.send({ id, title });
+    const result = await client.send(body);
 
     const response = {
         statusCode: 201,
