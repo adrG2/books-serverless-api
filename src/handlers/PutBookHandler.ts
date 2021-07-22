@@ -4,7 +4,6 @@ import {
     APIGatewayProxyResult
 } from "aws-lambda";
 import { SqsBookBus } from '../programmer-library/books/infrastructure/bus/SqsBookBus';
-// Create clients and set shared const values outside of the handler.
 
 /**
  * A simple example includes a HTTP post method to add one book to a DynamoDB table.

@@ -5,8 +5,6 @@ import {
 } from "aws-lambda";
 import { DynamoBookRepository } from '../programmer-library/books/infrastructure/persistence/DynamoBookRepository';
 
-// Create clients and set shared const values outside of the handler.
-
 
 /**
  * A simple example includes a HTTP get method to get all books from a DynamoDB table.
